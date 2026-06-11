@@ -786,7 +786,8 @@ function parseVoiceAnswer(transcript, q) {
         }
       }
     }
-    return total + current || null;
+    const result = total + current;
+    return (result === 0 && transcript.toLowerCase().includes("zero")) ? 0 : (result || null);
   }
   if (q.key === "persona") {
     const l = transcript.toLowerCase();
@@ -794,12 +795,14 @@ function parseVoiceAnswer(transcript, q) {
     if (l.includes("divorce")) return "divorced";
     if (l.includes("restart")) return "restarting";
     if (l.includes("student")) return "student";
+    return null;
   }
   if (q.key === "goal") {
     const l = transcript.toLowerCase();
     if (l.includes("debt") && l.includes("sav")) return "both";
     if (l.includes("debt")) return "debt_free";
     if (l.includes("sav") || l.includes("emergency")) return "save_more";
+    return null;
   }
   return transcript;
 }
