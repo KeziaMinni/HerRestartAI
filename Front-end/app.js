@@ -547,7 +547,7 @@ voiceBtn?.addEventListener("click", async () => {
     voiceSpinner.style.display = "inline-block";
 
     // const API_BASE = "http://localhost:8000";
-    const API_BASE = "http://127.0.0.1:5000";
+    const API_BASE = "https://herrestartai.onrender.com";
 
     // const res = await fetch(`${API_BASE}/api/voice`, {
     //   method: "POST",
@@ -649,7 +649,7 @@ let voiceAnswers = {};
 let currentTranscript = "";
 let recognition = null;
 let isListening = false;
-const API_URL = "http://127.0.0.1:5000";
+const API_URL = "https://herrestartai.onrender.com";
 
 // Modal open/close
 document.getElementById("openVoiceModal").addEventListener("click", () => {
