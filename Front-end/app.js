@@ -690,21 +690,27 @@ function resetModalUI() {
   document.getElementById("voiceModalSubtitle").textContent = "I'll ask you a few questions to build your personalized plan.";
 }
 
-async function speakQuestion(text) {
-  try {
-    speechSynthesis.cancel(); // stop any previous speech
-    const utter = new SpeechSynthesisUtterance(text);
-    utter.rate = 1.0;
-    utter.pitch = 1.0;
-    // Prefer a natural female English voice if available
-    const voices = speechSynthesis.getVoices();
-    const v = voices.find(v => v.name.includes("Female") || v.name.includes("Zira") || v.name.includes("Samantha"))
-           || voices.find(v => v.lang.startsWith("en"));
-    if (v) utter.voice = v;
-    speechSynthesis.speak(utter);
-  } catch (e) {
-    console.warn("Speech failed:", e);
-  }
+function speakQuestion(text) {
+  return new Promise((resolve) => {
+    try {
+      speechSynthesis.cancel();
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.rate = 1.0;
+      utter.pitch = 1.0;
+      const voices = speechSynthesis.getVoices();
+      const v = voices.find(v => v.name.includes("Female") || v.name.includes("Zira") || v.name.includes("Samantha"))
+             || voices.find(v => v.lang.startsWith("en"));
+      if (v) utter.voice = v;
+
+      utter.onend = () => resolve();   // mic starts only after speech ends
+      utter.onerror = () => resolve();
+      speechSynthesis.speak(utter);
+
+      setTimeout(resolve, 15000); // safety net so it never hangs
+    } catch (e) {
+      resolve();
+    }
+  });
 }
 
 function startListening() {
