@@ -653,6 +653,8 @@ const API_URL = "https://herrestartai.onrender.com";
 
 // Modal open/close
 document.getElementById("openVoiceModal").addEventListener("click", () => {
+  const unlockAudio = new Audio();
+  unlockAudio.play().catch(() => {});
   document.getElementById("voiceModal").style.display = "flex";
   voiceStep = 0;
   voiceAnswers = {};
@@ -693,7 +695,7 @@ async function speakQuestion(text) {
   setVoiceStatus("Speaking...");
   try {
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 8000);
+    const timeout = setTimeout(() => controller.abort(), 30000);
     const res = await fetch(`${API_URL}/api/speak/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
