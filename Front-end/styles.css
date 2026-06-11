@@ -2712,3 +2712,107 @@ a:hover      { color: var(--primary-dark); }
     font-size: 36px;
   }
 }
+/* ================= BUDGET CHIP FIX ================= */
+
+.chip,
+.budget-chip {
+  background: #fff !important;
+  border: 1px solid rgba(212, 81, 122, 0.16) !important;
+  color: var(--text) !important;
+}
+
+.chip .t,
+.budget-chip .t {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text) !important;
+}
+
+.chip .pct,
+.budget-chip .pct {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted) !important;
+}
+
+.chip .n,
+.budget-chip .n {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--primary) !important;
+  margin-top: 4px;
+}
+
+.chip-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mini-bar {
+  height: 4px;
+  background: rgba(212, 81, 122, 0.12);
+  border-radius: 999px;
+  margin-top: 8px;
+  overflow: hidden;
+}
+
+.mini-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  border-radius: 999px;
+}
+
+/* ================= OUTPUT PANEL PREVIEW SLIDES FIX ================= */
+
+.how-card.results-card,
+.how-card.results-card * {
+  color: var(--text);
+}
+
+.how-card.results-card .preview-card {
+  background: #fff !important;
+  border: 1px solid rgba(212, 81, 122, 0.14) !important;
+  box-shadow: 0 8px 32px rgba(212, 81, 122, 0.10) !important;
+}
+
+.how-card.results-card .preview-card .metric {
+  background: #FDF6F8 !important;
+  border: 1px solid rgba(212, 81, 122, 0.12) !important;
+}
+
+.how-card.results-card .preview-card .metric-label,
+.how-card.results-card .preview-card .metric .k {
+  color: var(--muted) !important;
+}
+
+.how-card.results-card .preview-card .metric-value,
+.how-card.results-card .preview-card .metric .v {
+  color: var(--text) !important;
+}
+
+.how-card.results-card .preview-card .slide-title,
+.how-card.results-card .preview-card .preview-title {
+  color: var(--text) !important;
+}
+
+.how-card.results-card .preview-card .slide-sub,
+.how-card.results-card .preview-card .mini-note {
+  color: var(--muted) !important;
+}
+
+.how-card.results-card .preview-card .bar-row {
+  color: var(--text) !important;
+}
+
+.how-card.results-card .preview-card .bar {
+  background: rgba(212, 81, 122, 0.10) !important;
+}
+
+.how-card.results-card .preview-card .preview-chip,
+.how-card.results-card .preview-card .pill-sm,
+.how-card.results-card .preview-card .badge {
+  background: rgba(212, 81, 122, 0.10) !important;
+  border: 1px solid rgba(212, 81, 122, 0.20) !important;
+  color: var(--primary) !important;
+}

@@ -400,7 +400,7 @@ form?.addEventListener("submit", async (e) => {
   try {
     // 👇 Change this to your backend URL if needed
     // const API_BASE = "http://localhost:8000";
-    const API_BASE = "http://127.0.0.1:5000";
+    const API_BASE = "https://herrestartai.onrender.com";
 
     // const res = await fetch(`${API_BASE}/api/plan`, {
     //   method: "POST",
