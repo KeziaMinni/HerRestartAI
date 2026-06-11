@@ -691,29 +691,19 @@ function resetModalUI() {
 }
 
 async function speakQuestion(text) {
-  setAvatarState("speaking");
-  setVoiceStatus("Speaking...");
   try {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 30000);
-    const res = await fetch(`${API_URL}/api/speak/`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text }),
-      signal: controller.signal,
-    });
-    clearTimeout(timeout);
-    if (!res.ok) { setVoiceStatus(""); return; }
-    const blob = await res.blob();
-    const url = URL.createObjectURL(blob);
-    const audio = new Audio(url);
-    return new Promise((resolve) => {
-      audio.onended = resolve;
-      audio.onerror = resolve;
-      audio.play().catch(resolve);
-    });
-  } catch (err) {
-    setVoiceStatus("");
+    speechSynthesis.cancel(); // stop any previous speech
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.rate = 1.0;
+    utter.pitch = 1.0;
+    // Prefer a natural female English voice if available
+    const voices = speechSynthesis.getVoices();
+    const v = voices.find(v => v.name.includes("Female") || v.name.includes("Zira") || v.name.includes("Samantha"))
+           || voices.find(v => v.lang.startsWith("en"));
+    if (v) utter.voice = v;
+    speechSynthesis.speak(utter);
+  } catch (e) {
+    console.warn("Speech failed:", e);
   }
 }
 
