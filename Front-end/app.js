@@ -535,12 +535,22 @@ form?.addEventListener("submit", async (e) => {
 });
 
 // ---- Voice button
-voiceBtn?.addEventListener("click", async () => {
+voiceBtn?.addEventListener("click", () => {
   const text = aiSummary.textContent?.trim();
   if (!text) {
     showToast("Generate a plan first.");
     return;
   }
+  speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.rate = 1.0;
+  const voices = speechSynthesis.getVoices();
+  const v = voices.find(v => v.name.includes("Female") || v.name.includes("Zira") || v.name.includes("Samantha"))
+         || voices.find(v => v.lang.startsWith("en"));
+  if (v) utter.voice = v;
+  speechSynthesis.speak(utter);
+  showToast("🎧 Reading your plan aloud...");
+});
 
   try {
     voiceBtn.disabled = true;
