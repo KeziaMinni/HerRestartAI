@@ -535,64 +535,23 @@ form?.addEventListener("submit", async (e) => {
 });
 
 // ---- Voice button
-voiceBtn?.addEventListener("click", async () => {
-  const text = aiSummary.textContent?.trim();
+voiceBtn?.addEventListener("click", () => {
+  const text = (window.__VOICE_TEXT__ || aiSummary.textContent || "").trim();
   if (!text) {
     showToast("Generate a plan first.");
     return;
   }
-
-  try {
-    voiceBtn.disabled = true;
-    voiceSpinner.style.display = "inline-block";
-
-    // const API_BASE = "http://localhost:8000";
-    const API_BASE = "https://herrestartai.onrender.com";
-
-    // const res = await fetch(`${API_BASE}/api/voice`, {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify({ text }),
-    // });
-
-
-    const res = await fetch(`${API_BASE}/api/speak/`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text: window.__VOICE_TEXT__ || text }),
-    });
-
-    // Expect either:
-    // A) JSON: { audio_url: "..." }
-    // B) audio bytes: Content-Type audio/mpeg
-    const ct = res.headers.get("content-type") || "";
-
-    if (ct.includes("application/json")) {
-      const j = await res.json();
-      audioPlayer.src = j.audio_url;
-    } else {
-      const blob = await res.blob();
-      audioPlayer.src = URL.createObjectURL(blob);
-    }
-
-    // audioPlayer.classList.remove("hidden");
-    // audioPlayer.play().catch(() => { });
-    // showToast("Voice ready 🎧");
-    audioPlayer.classList.remove("hidden");
-    audioPlayer.controls = true;  // make sure controls are visible
-    audioPlayer.play().catch((err) => {
-      console.warn("Autoplay blocked:", err);
-      showToast("🎧 Press play on the audio player below.");
-    });
-    showToast("Voice ready 🎧 Press play!");
-  } catch (e) {
-    console.error(e);
-    showToast("Voice generation failed. Check /api/voice.");
-  } finally {
-    voiceBtn.disabled = false;
-    voiceSpinner.style.display = "none";
-  }
+  speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.rate = 1.0;
+  const voices = speechSynthesis.getVoices();
+  const v = voices.find(v => v.name.includes("Female") || v.name.includes("Zira") || v.name.includes("Samantha"))
+         || voices.find(v => v.lang.startsWith("en"));
+  if (v) utter.voice = v;
+  speechSynthesis.speak(utter);
+  showToast("🎧 Reading your plan aloud...");
 });
+
 
 
 // ===== VOICE MODAL =====
